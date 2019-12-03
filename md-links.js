@@ -3,19 +3,12 @@ const Marked = require ('marked');
 //const fetch = require('fetch');
 const path = require('path')
 const process = require('process');
-//function hola (){
-//console.log(hola)
-//}
 
-//let path = './README.md'
 
 //LEER INPUT DE USUARIO (EL QUE ESCRIBE EN LA TERMINAL)
 let userpath = process.argv[2]
 userpath = path.resolve(userpath);
 console.log("mi ruta es: " + userpath)
-
-//encontrar archivos MD dentro de un directorio
-
 
 
 //leer archibo .md
@@ -33,38 +26,39 @@ const readMD = (userpath => {
   
 });
 
-
 //obtener links de un archovo .md
 const findlinks = (userpath) => {
-return new Promise ((resolve,reject)=>{
-readMD(userpath).then(res =>{
-  let links = [];
-  const renderer = new Marked.Renderer();
-  renderer.link = function(href, title, text){
-      links.push({
-        //
-        href:href,
-        //
-        text:text,
-        //
-        path: userpath})
+    return new Promise ((resolve,reject)=>{
+    readMD(userpath).then(res =>{
+      let links = [];
+      const renderer = new Marked.Renderer();
+      renderer.link = function(href, title, text){
+          links.push({
+            //
+            href:href,
+            //
+            text:text,
+            //
+            path: userpath})
+        }
+    
+        Marked(res,{renderer:renderer})
+        resolve(links) 
+        console.log(links)
+    
+          })
+          .catch(err =>{
+            reject(err)
+    
+          })
+        })
     }
-
-    Marked(res,{renderer:renderer})
-    resolve(links) 
-    console.log(links)
-
-      })
-      .catch(err =>{
-        reject(err)
-
-      })
-    })
-}
-findlinks(userpath)   
-console.log(findlinks(userpath))
-
-
+    findlinks(userpath)   
+    console.log(findlinks(userpath))
+    
+    
+//findlinks(userpath)   
+//console.log(findlinks(userpath))
 
 
 
@@ -77,13 +71,4 @@ console.log(findlinks(userpath))
     //leer el archivo md
     //encontrar links
     // texto de link
-    // ruta de link
-
-
-    function hola (file) {
-        console.log("hola macaaaa");
-    }
-    return hola(); 
-    
-}
-return mdLinks();*/
+    // ruta de link*/
